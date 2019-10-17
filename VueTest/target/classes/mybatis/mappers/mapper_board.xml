@@ -29,16 +29,12 @@
 	
 	<!-- 게시글 작성 -->
 	<insert id="create" parameterType="ArticleVO">
-		<![CDATA[
-		INSERT INTO BOARD(ID
-		   				, WRITER
+		INSERT INTO BOARD(WRITER
 		   				, TITLE
 		   				, CONTENT)
-				   VALUES((SELECT NVL(MAX(ID), 0) + 1 FROM BOARD)
-		     			 , #{writer}
-		    	 		 , #{title}
-		     			 , #{content})
-		]]>
+				  VALUES( '${writer}'
+		    	 		 	, '${title}'
+		     			, '${content}')
 	</insert>
 	<!-- 게시글 수정 -->
 	<update id="update">
@@ -58,8 +54,9 @@
 		]]>
 	</delete>
 	
+	
 	<!-- 게시판 페이징 -->
-	<select id="listCriteria" resultMap="articleResult">
+	<!-- <select id="listCriteria" resultMap="articleResult">
 	   <![CDATA[
 	    SELECT * 
   			  FROM (SELECT ROWNUM AS RNUM, 
@@ -68,15 +65,37 @@
              ORDER BY ID DESC) BO)
    		     WHERE RNUM BETWEEN #{pageStart} and #{perPageNum}
    		 ]]>
+   	</select> -->
+   	
+   	<select id="listCriteria" resultMap="articleResult">
+	    SELECT *
+		  FROM board
+		<if test="searchCondition == 'TITLE'">
+			WHERE TITLE LIKE '%${searchKeyWord}%'
+		</if>
+		<if test="searchCondition == 'CONTENT'">
+			WHERE CONTENT LIKE '%${searchKeyWord}%'
+		</if>
+		<if test="searchCondition == 'WRITER'">
+			WHERE WRITER LIKE '%${searchKeyWord}%'
+		</if>
+		  ORDER BY id DESC, regdate DESC
+		  LIMIT ${(currentPage-1)*perPage},${perPage}
    	</select>
    	
    	<!-- 게시글 총수 조회 -->
    	<select id="countArticles" resultType="int">
-	    <![CDATA[
 	    SELECT
 	        COUNT(ID)
 	    FROM BOARD
-	    WHERE ID > 0
-	    ]]>
+	    <if test="searchCondition == 'TITLE'">
+			WHERE TITLE LIKE '%${searchKeyWord}%'
+		</if>
+		<if test="searchCondition == 'CONTENT'">
+			WHERE CONTENT LIKE '%${searchKeyWord}%'
+		</if>
+		<if test="searchCondition == 'WRITER'">
+			WHERE WRITER LIKE '%${searchKeyWord}%'
+		</if>
 	</select>
 </mapper>

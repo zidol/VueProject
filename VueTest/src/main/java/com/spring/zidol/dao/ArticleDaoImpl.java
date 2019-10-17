@@ -26,8 +26,8 @@ public class ArticleDaoImpl implements ArticleDao {
 	private static final String DELETE = MP + ".delete";
 	
 	@Override
-	public List<ArticleVO> articleList() throws DataAccessException {
-		List<ArticleVO> articleList = sqlsession.selectList(SELECT_ALL);
+	public List<ArticleVO> articleList(ArticleVO articleVO) throws DataAccessException {
+		List<ArticleVO> articleList = sqlsession.selectList(SELECT_CRITERIA, articleVO);
 		return articleList;
 	}
 
@@ -57,8 +57,13 @@ public class ArticleDaoImpl implements ArticleDao {
 	}
 
 	@Override
-	public int countArticles(Criteria criteria) throws DataAccessException {
-		return sqlsession.selectOne(SELECT_COUNTARTICLES, criteria);
+	public int countArticles(ArticleVO articleVO) throws DataAccessException {
+		return sqlsession.selectOne(SELECT_COUNTARTICLES, articleVO);
+	}
+
+	@Override
+	public List<ArticleVO> articleListAjax(ArticleVO articleVO) throws DataAccessException {
+		return sqlsession.selectList(SELECT_CRITERIA, articleVO);
 	}
 
 }

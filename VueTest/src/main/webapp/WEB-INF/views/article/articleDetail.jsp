@@ -12,6 +12,8 @@
 		<hr>
 		<form action="/article/updateArticle" method="post">
 			<input type="hidden" name="id" v-bind:value="article.id">
+			 <input type="hidden" name="currentPage" v-bind:value="currentPage">
+			        <input type="hidden" name="perPage" v-bind:value="perPage">
 			<table border="1" cellpadding="0" cellspacing="0">
 				<tr>
 					<td bgcolor="orange" width="70">제목</td>
@@ -38,14 +40,16 @@
 		</form>
 		<hr>
 		<a v-bind:href="'/article/deleteArticle/' + article.id">글삭제</a>&nbsp;&nbsp;&nbsp;
-		<a href="/article/articleList">글목록</a>&nbsp;&nbsp;&nbsp;
+		<a id="list" v-bind:href="'/article/articleList?currentPage='+currentPage+'&perPage=10'">글목록</a>&nbsp;&nbsp;&nbsp;
 	</div>
 	<script type="text/javascript">
 
 		var vm = new Vue({
 			el : "#article",
 			data : {
-				article : ${article}
-			},
+				article : ${article},
+				currentPage : ${currentPage},
+				perPage : ${perPage},
+			}
 		});
 	</script>
