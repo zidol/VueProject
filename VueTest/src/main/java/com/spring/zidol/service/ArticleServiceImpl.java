@@ -1,6 +1,8 @@
 package com.spring.zidol.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,10 +19,10 @@ public class ArticleServiceImpl implements ArticleService{
 	
 	
 	//게시글 리스트
-	@Override
-	public List<ArticleVO> articleList() throws Exception{
-		return articleDao.articleList();
-	}
+//	@Override
+//	public List<ArticleVO> articleList() throws Exception{
+//		return articleDao.articleList();
+//	}
 
 	//게시글 작성
 	@Override
@@ -52,8 +54,25 @@ public class ArticleServiceImpl implements ArticleService{
 	}
 
 	@Override
-	public int countArticles(Criteria criteria) throws Exception {
-		return articleDao.countArticles(criteria);
+	public int countArticles(ArticleVO articleVO) throws Exception {
+		return articleDao.countArticles(articleVO);
+	}
+
+	@Override
+	public List<ArticleVO> articleList(ArticleVO articleVO) throws Exception {
+		return articleDao.articleList(articleVO);
+	}
+
+	@Override
+	public Map<String, Object> articleListAjax(ArticleVO articleVO) throws Exception {
+		List<ArticleVO> articleList = articleDao.articleListAjax(articleVO);
+		
+		int articleListRecords = countArticles(articleVO);
+		Map<String, Object> dataSetListMap = new HashMap<String, Object>();
+		
+		dataSetListMap.put("articleList", articleList);
+		dataSetListMap.put("articleListRecords", articleListRecords);
+		return dataSetListMap;
 	}
 
 }

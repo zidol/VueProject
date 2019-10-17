@@ -1,13 +1,14 @@
 package com.spring.zidol.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.spring.zidol.vo.ArticleVO;
 import com.spring.zidol.vo.Criteria;
 
 public interface ArticleService {
 	//게시글 리스트
-	List<ArticleVO> articleList() throws Exception;
+//	List<ArticleVO> articleList() throws Exception;
 	
 	//게시글 상세내용
 	ArticleVO article(int id) throws Exception;
@@ -25,5 +26,10 @@ public interface ArticleService {
 	List<ArticleVO> listCriteria(Criteria criteria) throws Exception;
 	
 	//게시글 총 수 조회
-	int countArticles(Criteria criteria) throws Exception;
+	int countArticles(ArticleVO articleVO) throws Exception;
+	
+	//게시글 목록 페이징 vue
+	List<ArticleVO> articleList(ArticleVO articleVO) throws Exception;
+	
+	public Map<String, Object> articleListAjax(ArticleVO articleVO) throws Exception;
 }

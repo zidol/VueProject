@@ -8,7 +8,7 @@ import com.spring.zidol.vo.ArticleVO;
 import com.spring.zidol.vo.Criteria;
 
 public interface ArticleDao {
-	public List<ArticleVO> articleList() throws DataAccessException;
+	public List<ArticleVO> articleList(ArticleVO articleVo) throws DataAccessException;
 	
 	void insert(ArticleVO articleVO) throws DataAccessException;
 	
@@ -20,5 +20,7 @@ public interface ArticleDao {
 	
 	public List<ArticleVO> listCriteria(Criteria criteria) throws DataAccessException;
 	
-	public int countArticles(Criteria criteria) throws DataAccessException;
+	public int countArticles(ArticleVO articleVO) throws DataAccessException;
+	
+	public List<ArticleVO> articleListAjax(ArticleVO articleVO) throws DataAccessException;
 }
