@@ -30,7 +30,7 @@
 					<button type="button" v-on:click="datasetList">검색</button>
 					
 				</div>
-		<table class="table table-gray table-hover"  border="1" cellpadding="0" cellspacing="0" width="700">
+		<!-- <table class="table table-gray table-hover"  border="1" cellpadding="0" cellspacing="0" width="700">
 			<tr>
 				<th width="100">글 번호</th>
 				<th width="200">제목</th>
@@ -43,7 +43,28 @@
 				<td align="left">{{c.writer}}</td>
 				<td align="left">{{new Date(c.regDate).toLocaleDateString()}}</td>
 			</tr>
-		</table>
+		</table> -->
+		<div>
+		
+			<b-table
+				hover
+				:items="articleList"
+				:fields="fields"
+				:sort-by.sync="sortBy"
+				:sort-desc.sync="sortDesc"
+				responsive="sm"
+		    >
+		    		<template v-slot:cell(title)="data">
+			        <!-- `data.value` is the value after formatted by the Formatter -->
+			       <a v-bind:href="'/article/'+ data.item.id+'?currentPage=' + pagingInfo.currentPage + '&perPage=' + pagingInfo.perPage">{{data.value}}</a>
+			      </template>
+			      <template v-slot:cell(regDate)="data">
+			        <!-- `data.value` is the value after formatted by the Formatter -->
+			      {{new Date(data.value).toLocaleDateString()}}
+			      </template>
+		    </b-table>
+
+		</div>
 		<br>
 	   	<%-- <div align="center">
 	   		<ul class="pagination">
@@ -105,6 +126,20 @@
 	                records: 0,
 	                perPage: 10,
 	            },
+	            fields: [
+	                { key: 'id', sortable: true },
+	                { key: 'title', sortable: true },
+	                { key: 'writer', sortable: true },
+	                { key: 'regDate', sortable: true }
+	              ],
+	              items: [
+	                { isActive: true, age: 40, first_name: 'Dickerson', last_name: 'Macdonald' },
+	                { isActive: false, age: 21, first_name: 'Larsen', last_name: 'Shaw' },
+	                { isActive: false, age: 89, first_name: 'Geneva', last_name: 'Wilson' },
+	                { isActive: true, age: 38, first_name: 'Jami', last_name: 'Carney' }
+	              ],
+	              sortBy: 'age',
+	              sortDesc: false,
 			},
 			methods : {
 				datasetList : function() {
